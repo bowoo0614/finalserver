@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 
 interface FeedCreateProps {
   onSuccess: () => void;
@@ -38,32 +38,28 @@ export default function FeedCreate({ onSuccess }: FeedCreateProps) {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
-    if (!validateForm()) {
-      return;
-    }
-
+  
+    if (!validateForm()) return;
+  
     try {
       setLoading(true);
       setError(null);
-      
+  
       await axios.post('http://localhost:3000/feeds', {
         name: name.trim(),
         content: content.trim(),
       });
-
-      // 폼 초기화
+  
       setName('');
       setContent('');
       setValidationErrors({});
-      
-      // 성공 시 글보기 탭으로 이동
+  
       onSuccess();
-    } catch (err: any) {
-      console.error('Error creating feed:', err);
+    } catch (err) {
+      const error = err as AxiosError<{ message: string }>;
+      console.error('Error creating feed:', error);
       setError(
-        err.response?.data?.message || 
-        '글 작성에 실패했습니다. 다시 시도해주세요.'
+        error.response?.data?.message || '글 작성에 실패했습니다. 다시 시도해주세요.'
       );
     } finally {
       setLoading(false);
