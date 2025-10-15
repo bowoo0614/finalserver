@@ -29,7 +29,7 @@ export default function FeedList() {
     try {
       setLoading(true);
       setError(null);
-      const response = await axios.get<Feed[]>('http://https://serverserver-production.up.railway.app//feeds');
+      const response = await axios.get<Feed[]>('https://serverserver-production.up.railway.app/feeds');
       setFeeds(response.data);
     } catch (err) {
       setError('글을 불러오는데 실패했습니다.');
@@ -41,7 +41,7 @@ export default function FeedList() {
 
   const fetchComments = async (feedId: number) => {
     try {
-      const response = await axios.get<Comment[]>(`http://https://serverserver-production.up.railway.app//feeds/${feedId}/comments`);
+      const response = await axios.get<Comment[]>(`https://serverserver-production.up.railway.app/feeds/${feedId}/comments`);
       setComments(prev => ({
         ...prev,
         [feedId]: response.data
@@ -58,7 +58,7 @@ export default function FeedList() {
     try {
       setSubmittingComments(prev => ({ ...prev, [feedId]: true }));
       
-      await axios.post(`http://https://serverserver-production.up.railway.app//feeds/${feedId}/comments`, {
+      await axios.post(`https://serverserver-production.up.railway.app/feeds/${feedId}/comments`, {
         content,
       });
 

@@ -27,7 +27,7 @@ export default function Home() {
                 : 'text-gray-500 hover:text-gray-700'
             }`}
           >
-            글보기
+            글보기ㄹㅇ
           </button>
           <button
             onClick={() => setActiveTab('create')}
